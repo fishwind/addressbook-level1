@@ -447,16 +447,6 @@ public class AddressBook {
     }
 
     /**
-     * Constructs a feedback message to summarise an operation that displayed a listing of persons.
-     *
-     * @param personsDisplayed used to generate summary
-     * @return summary message for persons displayed
-     */
-    private static String getMessageForPersonsDisplayedSummary(ArrayList<String[]> personsDisplayed) {
-        return String.format(MESSAGE_PERSONS_FOUND_OVERVIEW, personsDisplayed.size());
-    }
-
-    /**
      * Extracts keywords from the command arguments given for the find persons command.
      *
      * @param findPersonCommandArgs full command args string for the find persons command
@@ -484,6 +474,16 @@ public class AddressBook {
     }
 
     /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of persons.
+     *
+     * @param personsDisplayed used to generate summary
+     * @return summary message for persons displayed
+     */
+    private static String getMessageForPersonsDisplayedSummary(ArrayList<String[]> personsDisplayed) {
+        return String.format(MESSAGE_PERSONS_FOUND_OVERVIEW, personsDisplayed.size());
+    }
+    
+    /**
      * Deletes person identified using last displayed index.
      *
      * @param commandArgs full command args string from the user
@@ -493,7 +493,7 @@ public class AddressBook {
         if (!isDeletePersonArgsValid(commandArgs)) {
             return getMessageForInvalidCommandInput(COMMAND_DELETE_WORD, getUsageInfoForDeleteCommand());
         }
-        final int targetVisibleIndex = extractTargetIndexFromDeletePersonArgs(commandArgs);
+        final int targetVisibleIndex = Integer.parseInt(commandArgs.trim());
         if (!isDisplayIndexValidForLastPersonListingView(targetVisibleIndex)) {
             return MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
         }
@@ -515,16 +515,6 @@ public class AddressBook {
         } catch (NumberFormatException nfe) {
             return false;
         }
-    }
-
-    /**
-     * Extracts the target's index from the raw delete person args string
-     *
-     * @param rawArgs raw command args string for the delete person command
-     * @return extracted index
-     */
-    private static int extractTargetIndexFromDeletePersonArgs(String rawArgs) {
-        return Integer.parseInt(rawArgs.trim());
     }
 
     /**
