@@ -256,20 +256,16 @@ public class AddressBook {
      *
      * @param args full program arguments passed to application main method
      */
-    private static void processProgramArgs(String[] args) {
-        if (args.length >= 2) {
-            showToUser(MESSAGE_INVALID_PROGRAM_ARGS);
-            exitProgram();
-        }
-
-        if (args.length == 1) {
-            setupGivenFileForStorage(args[0]);
-        }
-
-        if(args.length == 0) {
-            setupDefaultFileForStorage();
-        }
-    }
+	private static void processProgramArgs(String[] args) {
+		if (args.length == 0) {
+			setupDefaultFileForStorage();
+		} else if (args.length == 1) {
+			setupGivenFileForStorage(args[0]);			
+		} else {
+			showToUser(MESSAGE_INVALID_PROGRAM_ARGS);
+			exitProgram();
+		}
+	}
 
     /**
      * Sets up the storage file based on the supplied file path.
