@@ -370,11 +370,11 @@ public class AddressBook {
 		case COMMAND_CLEAR_WORD:
 			return executeClearAddressBook();
 		case COMMAND_HELP_WORD:
-			return getUsageInfoForAllCommands();
+			return executeListAllHelpInfo();
 		case COMMAND_EXIT_WORD:
 			executeExitProgramRequest();
 		default:
-			return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
+			return getMessageForInvalidCommandInput(commandType, executeListAllHelpInfo());
 		}
 	}
 
@@ -1071,7 +1071,7 @@ public class AddressBook {
      */
 
     /** Returns usage info for all commands */
-    private static String getUsageInfoForAllCommands() {
+    private static String executeListAllHelpInfo() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
                 + getUsageInfoForViewCommand() + LS
