@@ -209,7 +209,7 @@ public class AddressBook {
     public static void main(String[] args) {
         showWelcomeMessage();
         processProgramArgs(args);
-        loadDataFromStorage();
+        initialiseAddressBookModel(loadPersonsFromFile(storageFilePath));
         while (true) {
             String userCommand = getUserInput();
             echoUserCommand(userCommand);
@@ -257,10 +257,13 @@ public class AddressBook {
      * @param args full program arguments passed to application main method
      */
 	private static void processProgramArgs(String[] args) {
+		
 		if (args.length == 0) {
 			setupDefaultFileForStorage();
+			
 		} else if (args.length == 1) {
-			setupGivenFileForStorage(args[0]);			
+			setupGivenFileForStorage(args[0]);		
+			
 		} else {
 			showToUser(MESSAGE_INVALID_PROGRAM_ARGS);
 			exitProgram();
@@ -307,18 +310,18 @@ public class AddressBook {
      * A file path is valid if it has a valid parent directory as determined by {@link #hasValidParentDirectory}
      * and a valid file name as determined by {@link #hasValidFileName}.
      */
-    private static boolean isValidFilePath(String filePath) {
-        if (filePath == null) {
-            return false;
-        }
-        Path filePathToValidate;
-        try {
-            filePathToValidate = Paths.get(filePath);
-        } catch (InvalidPathException ipe) {
-            return false;
-        }
-        return hasValidParentDirectory(filePathToValidate) && hasValidFileName(filePathToValidate);
-    }
+	private static boolean isValidFilePath(String filePath) {
+		if (filePath == null) {
+			return false;
+		}
+		Path filePathToValidate;
+		try {
+			filePathToValidate = Paths.get(filePath);
+		} catch (InvalidPathException ipe) {
+			return false;
+		}
+		return hasValidParentDirectory(filePathToValidate) && hasValidFileName(filePathToValidate);
+	}
 
     /**
      * Returns true if the file path has a parent directory that exists.
@@ -338,15 +341,6 @@ public class AddressBook {
         return filePath.getFileName().toString().lastIndexOf('.') > 0
                 && (!Files.exists(filePath) || Files.isRegularFile(filePath));
     }
-
-    /**
-     * Initialises the in-memory data using the storage file.
-     * Assumption: The file exists.
-     */
-    private static void loadDataFromStorage() {
-        initialiseAddressBookModel(loadPersonsFromFile(storageFilePath));
-    }
-
 
     /*
      * ===========================================
