@@ -354,29 +354,29 @@ public class AddressBook {
      * @param userInputString  raw input from user
      * @return  feedback about how the command was executed
      */
-    private static String executeCommand(String userInputString) {
-        final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
-        final String commandType = commandTypeAndParams[0];
-        final String commandArgs = commandTypeAndParams[1];
-        switch (commandType) {
-        case COMMAND_ADD_WORD:
-            return executeAddPerson(commandArgs);
-        case COMMAND_FIND_WORD:
-            return executeFindPersons(commandArgs);
-        case COMMAND_LIST_WORD:
-            return executeListAllPersonsInAddressBook();
-        case COMMAND_DELETE_WORD:
-            return executeDeletePerson(commandArgs);
-        case COMMAND_CLEAR_WORD:
-            return executeClearAddressBook();
-        case COMMAND_HELP_WORD:
-            return getUsageInfoForAllCommands();
-        case COMMAND_EXIT_WORD:
-            executeExitProgramRequest();
-        default:
-            return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
-        }
-    }
+	private static String executeCommand(String userInputString) {
+		final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
+		final String commandType = commandTypeAndParams[0];
+		final String commandArgs = commandTypeAndParams[1];
+		switch (commandType) {
+		case COMMAND_ADD_WORD:
+			return executeAddPerson(commandArgs);
+		case COMMAND_FIND_WORD:
+			return executeFindPersons(commandArgs);
+		case COMMAND_LIST_WORD:
+			return executeListEveryPerson();
+		case COMMAND_DELETE_WORD:
+			return executeDeletePerson(commandArgs);
+		case COMMAND_CLEAR_WORD:
+			return executeClearAddressBook();
+		case COMMAND_HELP_WORD:
+			return getUsageInfoForAllCommands();
+		case COMMAND_EXIT_WORD:
+			executeExitProgramRequest();
+		default:
+			return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
+		}
+	}
 
     /**
      * Splits raw user input into command word and command arguments string
@@ -563,7 +563,7 @@ public class AddressBook {
      *
      * @return feedback display message for the operation result
      */
-    private static String executeListAllPersonsInAddressBook() {
+    private static String executeListEveryPerson() {
         ArrayList<String[]> toBeDisplayed = getEveryPerson();
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
