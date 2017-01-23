@@ -634,20 +634,10 @@ public class AddressBook {
      * @return formatted listing message with index
      */
     private static String getIndexedPersonListElementMessage(int visibleIndex, String[] person) {
-        return String.format(MESSAGE_DISPLAY_LIST_ELEMENT_INDEX, visibleIndex) + getMessageForFormattedPersonData(person);
-    }
-
-    /**
-     * Constructs a prettified string to show the user a person's data.
-     *
-     * @param person to show
-     * @return formatted message showing internal state
-     */
-    private static String getMessageForFormattedPersonData(String[] person) {
-        return String.format(MESSAGE_DISPLAY_PERSON_DATA,
+    	String messageForFormattedPersonData = String.format(MESSAGE_DISPLAY_PERSON_DATA,
                 getNameFromPerson(person), getPhoneFromPerson(person), getEmailFromPerson(person));
+        return String.format(MESSAGE_DISPLAY_LIST_ELEMENT_INDEX, visibleIndex) + messageForFormattedPersonData;
     }
-
 
     /**
      * Retrieves the person identified by the displayed index from the last shown listing of persons.
