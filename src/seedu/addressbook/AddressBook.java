@@ -372,7 +372,7 @@ public class AddressBook {
 		case COMMAND_HELP_WORD:
 			return executeListAllHelpInfo();
 		case COMMAND_EXIT_WORD:
-			executeExitProgramRequest();
+			exitProgram();
 		default:
 			return getMessageForInvalidCommandInput(commandType, executeListAllHelpInfo());
 		}
@@ -559,13 +559,6 @@ public class AddressBook {
         ArrayList<String[]> toBeDisplayed = getEveryPerson();
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
-    }
-
-    /**
-     * Requests to terminate the program.
-     */
-    private static void executeExitProgramRequest() {
-        exitProgram();
     }
 
     /*
