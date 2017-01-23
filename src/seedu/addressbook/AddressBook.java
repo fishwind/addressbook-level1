@@ -935,17 +935,17 @@ public class AddressBook {
         final int indexOfPhonePrefix = encoded.indexOf(PERSON_DATA_PREFIX_PHONE);
         final int indexOfEmailPrefix = encoded.indexOf(PERSON_DATA_PREFIX_EMAIL);
 
+        String phonePortion;
+        
         // phone is last arg, target is from prefix to end of string
         if (indexOfPhonePrefix > indexOfEmailPrefix) {
-            return removePrefixSign(encoded.substring(indexOfPhonePrefix, encoded.length()).trim(),
-                    PERSON_DATA_PREFIX_PHONE);
-
+        	phonePortion = encoded.substring(indexOfPhonePrefix, encoded.length()).trim();
+        	
         // phone is middle arg, target is from own prefix to next prefix
         } else {
-            return removePrefixSign(
-                    encoded.substring(indexOfPhonePrefix, indexOfEmailPrefix).trim(),
-                    PERSON_DATA_PREFIX_PHONE);
+        	phonePortion = encoded.substring(indexOfPhonePrefix, indexOfEmailPrefix).trim();
         }
+        return removePrefixSign(phonePortion, PERSON_DATA_PREFIX_PHONE);
     }
 
     /**
@@ -958,17 +958,17 @@ public class AddressBook {
         final int indexOfPhonePrefix = encoded.indexOf(PERSON_DATA_PREFIX_PHONE);
         final int indexOfEmailPrefix = encoded.indexOf(PERSON_DATA_PREFIX_EMAIL);
 
+        String emailPortion;
+        
         // email is last arg, target is from prefix to end of string
         if (indexOfEmailPrefix > indexOfPhonePrefix) {
-            return removePrefixSign(encoded.substring(indexOfEmailPrefix, encoded.length()).trim(),
-                    PERSON_DATA_PREFIX_EMAIL);
+        	emailPortion = encoded.substring(indexOfEmailPrefix, encoded.length()).trim();
 
         // email is middle arg, target is from own prefix to next prefix
         } else {
-            return removePrefixSign(
-                    encoded.substring(indexOfEmailPrefix, indexOfPhonePrefix).trim(),
-                    PERSON_DATA_PREFIX_EMAIL);
+        	emailPortion = encoded.substring(indexOfEmailPrefix, indexOfPhonePrefix).trim();
         }
+        return removePrefixSign(emailPortion, PERSON_DATA_PREFIX_EMAIL);
     }
 
     /**
