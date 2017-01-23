@@ -18,10 +18,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+//import java.util.*;
 
 /*
  * NOTE : =============================================================
@@ -114,13 +116,17 @@ public class AddressBook {
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
+    
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Displays all persons as a list with index numbers, in alphabetical order";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
 
     private static final String COMMAND_DELETE_WORD = "delete";
     private static final String COMMAND_DELETE_DESC = "Deletes a person identified by the index number used in "
                                                     + "the last find/list call.";
     private static final String COMMAND_DELETE_PARAMETER = "INDEX";
     private static final String COMMAND_DELETE_EXAMPLE = COMMAND_DELETE_WORD + " 1";
-
+    
     private static final String COMMAND_CLEAR_WORD = "clear";
     private static final String COMMAND_CLEAR_DESC = "Clears address book permanently.";
     private static final String COMMAND_CLEAR_EXAMPLE = COMMAND_CLEAR_WORD;
@@ -375,6 +381,8 @@ public class AddressBook {
             return executeFindPersons(commandArgs);
         case COMMAND_LIST_WORD:
             return executeListAllPersonsInAddressBook();
+        case COMMAND_SORT_WORD:
+        	return executeListSortedAddressBook();
         case COMMAND_DELETE_WORD:
             return executeDeletePerson(commandArgs);
         case COMMAND_CLEAR_WORD:
@@ -486,13 +494,30 @@ public class AddressBook {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            Set<String> keyWordSet = new HashSet<String>(keywords);
+            toLowerCase(wordsInName);
+            toLowerCase(keyWordSet);
+            if (!Collections.disjoint(wordsInName, keyWordSet)) {
                 matchedPersons.add(person);
             }
         }
         return matchedPersons;
     }
 
+    /**
+     * Transform all String in a set to lower case
+     * 
+     * @param strings Strings to be converted
+     */
+	public static void toLowerCase(Set<String> strings) {
+		String[] stringsArray = strings.toArray(new String[0]);
+		for (int i = 0; i < stringsArray.length; ++i) {
+			stringsArray[i] = stringsArray[i].toLowerCase();
+		}
+		strings.clear();
+		strings.addAll(Arrays.asList(stringsArray));
+	}
+	
     /**
      * Deletes person identified using last displayed index.
      *
@@ -558,6 +583,7 @@ public class AddressBook {
         return String.format(MESSAGE_DELETE_PERSON_SUCCESS, getMessageForFormattedPersonData(deletedPerson));
     }
 
+    
     /**
      * Clears all persons in the address book.
      *
@@ -578,7 +604,29 @@ public class AddressBook {
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
     }
-
+    
+    /**
+     * Displays all persons in the address book to the user; in alphabetical order.
+     * 
+     * @return feedback display message for the operation result
+     */
+    private static String executeListSortedAddressBook() {
+        ArrayList<String[]> personList = new ArrayList<String[]>(getAllPersonsInAddressBook());
+        Collections.sort(personList, new Comparator<String[]>() {
+            public int compare(String[] x, String[] y) {
+                if(x[0].compareTo(y[0]) < 0) {
+                    return -1;
+                } else if(x[0].compareTo(y[0]) == 0) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        });
+        showToUser(personList);
+    	return getMessageForPersonsDisplayedSummary(personList);
+    }
+    
     /**
      * Requests to terminate the program.
      */
@@ -1085,6 +1133,7 @@ public class AddressBook {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
                 + getUsageInfoForViewCommand() + LS
+                + getUsageInfoForSortCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
                 + getUsageInfoForExitCommand() + LS
@@ -1123,7 +1172,13 @@ public class AddressBook {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_LIST_WORD, COMMAND_LIST_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_LIST_EXAMPLE) + LS;
     }
-
+    
+    /** Returns the string for showing 'view' command usage instruction in alphabetical order */
+    private static String getUsageInfoForSortCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_SORT_WORD, COMMAND_SORT_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_SORT_EXAMPLE) + LS;
+    }
+    
     /** Returns string for showing 'help' command usage instruction */
     private static String getUsageInfoForHelpCommand() {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_HELP_WORD, COMMAND_HELP_DESC)
