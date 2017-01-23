@@ -36,24 +36,16 @@ import java.util.Set;
  **/
 public class AddressBook {
 
-    /**
-     * Default file path used if the user doesn't provide the file name.
-     */
+    /** Default file path used if the user doesn't provide the file name. */
     private static final String DEFAULT_STORAGE_FILEPATH = "addressbook.txt";
 
-    /**
-     * Version info of the program.
-     */
+    /** Version info of the program. */
     private static final String VERSION = "AddessBook Level 1 - Version 1.0";
 
-    /**
-     * A decorative prefix added to the beginning of lines printed by AddressBook
-     */
+    /** A decorative prefix added to the beginning of lines printed by AddressBook */
     private static final String LINE_PREFIX = "|| ";
 
-    /**
-     * A platform independent line separator.
-     */
+    /** A platform independent line separator. */
     private static final String LS = System.lineSeparator() + LINE_PREFIX;
 
     /*
@@ -145,19 +137,13 @@ public class AddressBook {
     private static final int PERSON_DATA_INDEX_PHONE = 1;
     private static final int PERSON_DATA_INDEX_EMAIL = 2;
 
-    /**
-     * The number of data elements for a single person.
-     */
+    /** The number of data elements for a single person. */
     private static final int PERSON_DATA_COUNT = 3;
 
-    /**
-     * Offset required to convert between 1-indexing and 0-indexing.COMMAND_
-     */
+    /** Offset required to convert between 1-indexing and 0-indexing.COMMAND_ */
     private static final int DISPLAYED_INDEX_OFFSET = 1;
 
-    /**
-     * If the first non-whitespace character in a user's input line is this, that line will be ignored.
-     */
+    /** If the first non-whitespace character in a user's input line is this, that line will be ignored. */
     private static final char INPUT_COMMENT_MARKER = '#';
 
     /*
@@ -178,9 +164,7 @@ public class AddressBook {
      * ====================================================================================================
      */
 
-    /**
-     * List of all persons in the address book.
-     */
+    /** List of all persons in the address book. */
     private static final ArrayList<String[]> ALL_PERSONS = new ArrayList<>();
 
     /**
@@ -190,9 +174,7 @@ public class AddressBook {
      */
     private static ArrayList<String[]> latestPersonListingView = getEveryPerson(); // initial view is of all
 
-    /**
-     * The path to the file used for storing person data.
-     */
+    /** The path to the file used for storing person data. */
     private static String storageFilePath;
 
     /*
@@ -242,9 +224,7 @@ public class AddressBook {
      * ====================================================================
      */
 
-    /**
-     * Echoes the user input back to the user.
-     */
+    /** Echoes the user input back to the user. */
     private static void echoUserCommand(String userCommand) {
         showToUser("[Command entered:" + userCommand + "]");
     }
@@ -286,9 +266,7 @@ public class AddressBook {
         createFileIfMissing(filePath);
     }
 
-    /**
-     * Displays the goodbye message and exits the runtime.
-     */
+    /** Displays the goodbye message and exits the runtime. */
     private static void exitProgram() {
         showToUser(MESSAGE_GOODBYE, DIVIDER, DIVIDER);
         System.exit(0);
@@ -323,9 +301,7 @@ public class AddressBook {
 		return hasValidParentDirectory(filePathToValidate) && hasValidFileName(filePathToValidate);
 	}
 
-    /**
-     * Returns true if the file path has a parent directory that exists.
-     */
+    /** Returns true if the file path has a parent directory that exists. */
     private static boolean hasValidParentDirectory(Path filePath) {
         Path parentDirectory = filePath.getParent();
         return parentDirectory == null || Files.isDirectory(parentDirectory);
@@ -613,9 +589,7 @@ public class AddressBook {
 		latestPersonListingView = new ArrayList<>(persons);
     }
 
-    /**
-     * Returns the display string representation of the list of persons.
-     */
+    /** Returns the display string representation of the list of persons. */
     private static String getDisplayString(ArrayList<String[]> persons) {
         final StringBuilder messageAccumulator = new StringBuilder();
         for (int i = 0; i < persons.size(); i++) {
@@ -749,16 +723,12 @@ public class AddressBook {
         return changed;
     }
 
-    /**
-     * Returns all persons in the address book
-     */
+    /** Returns all persons in the address book */
     private static ArrayList<String[]> getEveryPerson() {
         return ALL_PERSONS;
     }
 
-    /**
-     * Clears all persons in the address book and saves changes to file.
-     */
+    /** Clears all persons in the address book and saves changes to file. */
     private static void clearAddressBook() {
         ALL_PERSONS.clear();
         savePersonsToFile(getEveryPerson(), storageFilePath);
